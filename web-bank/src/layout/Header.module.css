@@ -1,0 +1,19 @@
+.header{
+    display: flex;
+    height: 100px;
+    border-radius: 50px;
+    background-color: rgb(96, 18, 99);
+    align-items: center;
+
+}
+.logoImg{
+    height: 100px;
+    width: auto
+}
+li{
+    float:left;
+    margin-left: 10px;
+}
+ul {
+    list-style: none;
+}

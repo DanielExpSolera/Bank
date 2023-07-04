@@ -1,0 +1,31 @@
+[
+  {
+    "firstName": "Luis",
+    "lastName": "Suarez",
+    "email": "solera@solera.com",
+    "password": "bootcamp2",
+    "accounts": [
+      {
+        "type": "Checking",
+        "acc_number": "30492706",
+        "transactions": [
+          {
+            "ammount": 20,
+            "isued_to": ""
+          }
+        ]
+      },
+      {
+        "type": "Saving",
+        "acc_number": "30492345",
+
+        "transactions": [
+          {
+            "ammount": -20,
+            "isued_to": "Jose P."
+          }
+        ]
+      }
+    ]
+  }
+]
