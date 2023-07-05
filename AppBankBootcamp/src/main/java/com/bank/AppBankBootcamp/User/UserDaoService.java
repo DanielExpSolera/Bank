@@ -4,15 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.bank.AppBankBootcamp.User.Account.AccountDaoService;
+import com.bank.AppBankBootcamp.User.Transaction.TransactionDaoService;
 
 @Component
 public class UserDaoService {
+	
 	private static List<User> users = new ArrayList<>();
-	private static int usersCount = 0;
+	private static int usersCount = 2;
+
 	static {
-		users.add(new User("Adam", "White", "correo@solera.com", "622755899"));
-		users.add(new User("Jose", "Perez", "joseperez@solera.com", "620407799"));
+		users.add(new User(1, "Adam", "White", "correo@solera.com", "contraseña"));
+		users.add(new User(2, "Jose", "Perez", "joseperez@solera.com", "password"));
 	}
 	public List<User> findAll() {
 		return users;
