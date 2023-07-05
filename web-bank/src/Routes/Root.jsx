@@ -1,11 +1,14 @@
-import Header from '../layout/Header';
+import Login from '../pages/Login.jsx';
+import Header from '../layout/Header.jsx';
 
-function App() {
+function Root() {
+  
   return (
     <div className="App">
-      <Header/>
+    <Header/>
+      <Login/>
     </div>
   );
 }
 
-export default App;
+export default Root;
