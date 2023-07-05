@@ -13,7 +13,9 @@ public class TransactionDaoService {
 	static {
 		transactions.add(new Transaction(1000, "4444444222222", "Federico García", 1, 1));
 		transactions.add(new Transaction(10000, "1234567891234", "", 2, 2));
-		transactionsCount = 2;
+		transactions.add(new Transaction(1000, "0000000000", "Federico García", 3, 3));
+		transactions.add(new Transaction(-11500, "1212121212", "Pedro Expósito", 3, 4));
+		transactionsCount = 4;
 	}
 	
 	public List<Transaction> findAll() {

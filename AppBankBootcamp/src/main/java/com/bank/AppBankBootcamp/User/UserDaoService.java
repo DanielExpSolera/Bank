@@ -14,11 +14,13 @@ import com.bank.AppBankBootcamp.User.Transaction.TransactionDaoService;
 public class UserDaoService {
 	
 	private static List<User> users = new ArrayList<>();
-	private static int usersCount = 2;
+	private static int usersCount = 0;
 
 	static {
 		users.add(new User(1, "Adam", "White", "correo@solera.com", "contraseña"));
 		users.add(new User(2, "Jose", "Perez", "joseperez@solera.com", "password"));
+		users.add(new User(3, "Solera", "Solera", "solera@solera.com", "bootcamp2"));
+		usersCount = 3;
 	}
 	public List<User> findAll() {
 		return users;

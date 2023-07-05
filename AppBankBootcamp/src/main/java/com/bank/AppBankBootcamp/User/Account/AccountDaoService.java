@@ -20,7 +20,9 @@ public class AccountDaoService {
 		//so that's why we just create some example accounts and transactions for all the users.
 		accounts.add(new Account(1000, "1234567891234", 1, 1));
 		accounts.add(new Account(-1000, "9876543219876", 2, 2));
-		accountsCount = 2;
+		accounts.add(new Account(-1000, "9876543219876", 3, 3));
+		accounts.add(new Account(-1000, "8888888888888", 3, 4));
+		accountsCount = 4;
 	}
 	
 	public List<Account> findAll() {
