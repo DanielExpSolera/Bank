@@ -18,8 +18,8 @@ public class AccountDaoService {
 	static {
 		//there shouldn't initialize false values, in the controller should created it with the data on the dataBase, in this case we don't have dataBase
 		//so that's why we just create some example accounts and transactions for all the users.
-		accounts.add(new Account(1000, "1234567891234", new TransactionDaoService(), 1));
-		accounts.add(new Account(-1000, "9876543219876", new TransactionDaoService(), 2));
+		accounts.add(new Account(1000, "1234567891234", 1, 1));
+		accounts.add(new Account(-1000, "9876543219876", 2, 2));
 		accountsCount = 2;
 	}
 	
@@ -48,7 +48,7 @@ public class AccountDaoService {
 	public List<Account> getAccountsByUser(int userId) {
 	    List<Account> userAccounts = new ArrayList<>();
 	    for (Account account : accounts) {
-	        if (account.getId() == userId) {
+	        if (account.getUserId() == userId) {
 	            userAccounts.add(account);
 	        }
 	    }

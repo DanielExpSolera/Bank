@@ -11,8 +11,8 @@ public class TransactionDaoService {
 	public static List<Transaction> transactions = new ArrayList<>();
 	public static int transactionsCount = 0;
 	static {
-		transactions.add(new Transaction(1000, "4444444222222", "Federico García", 1));
-		transactions.add(new Transaction(10000, "1234567891234", "", 2));
+		transactions.add(new Transaction(1000, "4444444222222", "Federico García", 1, 1));
+		transactions.add(new Transaction(10000, "1234567891234", "", 2, 1));
 		transactionsCount = 2;
 	}
 	
@@ -32,10 +32,10 @@ public class TransactionDaoService {
 		transactions.add(newTransaction);
 		return newTransaction;
 	}
-	public List<Transaction> getTransactionsByAccount(int accountId) {
+	public List<Transaction> getTransactionsByUser(int accountId) {
 	    List<Transaction> accountTransactions = new ArrayList<>();
 	    for (Transaction transaction : transactions) {
-	        if (transaction.getId() == accountId) {
+	        if (transaction.getAccountId() == accountId) {
 	            accountTransactions.add(transaction);
 	        }
 	    }
