@@ -1,0 +1,66 @@
+[
+  {
+    "id":1,
+    "firstName": "Luis",
+    "lastName": "Suarez",
+    "email": "solera@solera.com",
+    "password": "bootcamp2",
+    "accounts": [
+      {
+        "acc_id": 1,
+        "type": "Checking",
+        "acc_number": "30492706",
+        "transactions": [
+          {
+            
+            "trans_id":1,
+            "amount": -20,
+            "paid_to": "Federico B."
+          },
+          {
+            "trans_id":2,
+            "amount": 20,
+            "paid_to": "Lucas M."
+          },
+          {
+            "trans_id":3,
+            "amount": 20,
+            "paid_to": "Juan P."
+          },
+          {
+            "trans_id":4,
+            "amount": 1203,
+            "paid_to": ""
+          }
+        ]
+      },
+      {
+        "type": "Saving",
+        "acc_number": "30492345",
+
+        "transactions": [
+          {
+            "trans_id":1,
+            "amount": 1203,
+            "paid_to": ""
+          },
+          {
+            "trans_id":2,
+            "amount": 200,
+            "paid_to": ""
+          },
+          {
+            "trans_id":3,
+            "amount": 300,
+            "paid_to": ""
+          },
+          {
+            "trans_id":4,
+            "amount": 120,
+            "paid_to": ""
+          }
+        ]
+      }
+    ]
+  }
+]
