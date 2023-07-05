@@ -1,7 +1,10 @@
 package com.bank.AppBankBootcamp.User.Transaction;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class Transaction {
 
+	@NotBlank
 	public int amount;
 	public String destAccNumber;
 	public String isuedTo;

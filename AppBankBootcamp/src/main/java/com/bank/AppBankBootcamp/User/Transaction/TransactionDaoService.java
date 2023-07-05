@@ -12,7 +12,7 @@ public class TransactionDaoService {
 	public static int transactionsCount = 0;
 	static {
 		transactions.add(new Transaction(1000, "4444444222222", "Federico García", 1, 1));
-		transactions.add(new Transaction(10000, "1234567891234", "", 2, 1));
+		transactions.add(new Transaction(10000, "1234567891234", "", 2, 2));
 		transactionsCount = 2;
 	}
 	
