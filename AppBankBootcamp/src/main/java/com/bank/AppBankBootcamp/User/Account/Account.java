@@ -17,18 +17,32 @@ public class Account {
 		this.initialFunds = initialFunds;
 		this.userId = userId;
 		this.id = id;
+		this.type = "savings";
 	}
 	@NotBlank
 	@JsonProperty("funds")
 	public int initialFunds;
 	@NotNull
 	public String accNumber;
-	@JsonIgnore
 	public int id;
 	@NotBlank
 	@JsonProperty("userId")
 	public int userId;
+	public String type;
+	public List<Transaction> transactions;
 	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
 	public String getAccNumber() {
 		return accNumber;
 	}

@@ -57,5 +57,13 @@ public class AccountDaoService {
 
 	    return userAccounts;
 	}
-
+	public List<Account> getAccountsById(int Id, int userId) {
+	    List<Account> userAccounts = new ArrayList<>();
+	    for (Account account : accounts) {
+	        if (account.getId() == Id && account.getUserId() == userId) {
+	            userAccounts.add(account);
+	        }
+	    }
+	    return userAccounts;
+	}
 }

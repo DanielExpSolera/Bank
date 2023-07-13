@@ -8,7 +8,9 @@ public class Transaction {
 	public int amount;
 	public String destAccNumber;
 	public String isuedTo;
+	@NotBlank
 	public int userId;
+	@NotBlank
 	public int accountId;
 	public int id;
 	public Transaction(int amount, String destAccNumber, String isuedTo, int userId, int accountId) {
