@@ -10,6 +10,7 @@
         "acc_id": 1,
         "type": "Checking",
         "acc_number": "30492706",
+        "starting_balance": 10000,
         "transactions": [
           {
             
@@ -37,7 +38,7 @@
       {
         "type": "Saving",
         "acc_number": "30492345",
-
+        "starting_balance": 10000,
         "transactions": [
           {
             "trans_id":1,

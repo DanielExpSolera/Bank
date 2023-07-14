@@ -5,3 +5,17 @@
     background-color:rgb(96, 18, 99);
     box-shadow: 10px 5px 5px black;
 }
+
+.trans-container {
+    padding: 10px;
+    margin: 20px;
+    width:40vh;
+    border-radius: 15px;
+    background-color:rgb(141, 25, 145);
+    box-shadow: 10px 5px 5px black;
+}
+
+.acc-container {
+    display:flex;
+    justify-content: center;
+}

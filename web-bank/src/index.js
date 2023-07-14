@@ -5,6 +5,7 @@ import "./index.css";
 import Global from './pages/Global';
 import NewUser from './pages/NewUser';
 import Profile from './pages/Profile';
+import TransactionForm from './pages/TransactionForm';
 
 const router = createBrowserRouter([
     {
@@ -12,7 +13,7 @@ const router = createBrowserRouter([
       element: <Root/>,
     },
     {
-      path: "/user",
+      path: "/global",
       element: <Global/>,
       
     },
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     {
       path: "user/profile",
       element: <Profile />,
+    },
+    {
+      path: "global/new-trans",
+      element: <TransactionForm />,
     }
   ]);
 

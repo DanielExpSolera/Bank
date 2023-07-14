@@ -24,7 +24,7 @@ const NewUser = () => {
 
     // POST METHOD TO CREATE A NEW USER
     alert("New User Created Succesfully ✔")
-    navigate("/login")
+    navigate("/")
   };
 
   return (
@@ -86,7 +86,7 @@ const NewUser = () => {
             
           />
           <input className={styles.button} type="submit"></input>
-          <p>Do you already have an account? <NavLink to="/login">Click Here</NavLink></p>
+          <p>Do you already have an account? <NavLink to="/">Click Here</NavLink></p>
 
         </form>
       </div>
