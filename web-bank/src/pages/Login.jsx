@@ -1,25 +1,30 @@
 import styles from './Forms.module.css';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 
-const Login = ({onAccess}) => {
+const Login = (props) => {
+  const [loggedUser, setLoggedUser] = useState({});
   const navigate = useNavigate();
 
-  const refName = useRef();
+  const refEmail = useRef();
   const refPassword = useRef();
-  
+  console.log('usuario desde login ', loggedUser);
 
   const submit = (e) => {
     e.preventDefault();
-    const inputName = refName.current?.value;
+    const inputEmail = refEmail.current?.value;
     const inputPassword = refPassword.current?.value;
+    let isValidUser = false;
 
-    if (inputName === 'solera@solera.com' && inputPassword === 'bootcamp2') {
+    for (const user of props.users) {
+      if (user.email === inputEmail && user.password === inputPassword) {
+        isValidUser = true;
+      }
+    }
+    if (isValidUser) {
       alert('You logged in Successfully ✔ ');
-      navigate('/user')
-    } else
-    alert('Incorrect email or/and password ');
-
+      navigate('/global');
+    } else alert('Incorrect email or/and password');
   };
 
   return (
@@ -28,7 +33,7 @@ const Login = ({onAccess}) => {
         <form className={styles.formContainer} onSubmit={submit}>
           <label>Email</label>
           <input
-            ref={refName}
+            ref={refEmail}
             className={styles['input-box']}
             type="text"
             placeholder="Your Email"

@@ -6,8 +6,7 @@ import { BiLogOut } from 'react-icons/bi';
 import styles from './Header.module.css';
 import { NavLink } from 'react-router-dom';
 
-const Header = (props) => {
-  console.log(props.isAccess)
+const Header = () => {
   return (
     <header className={styles.header}>
       <img className={styles['logo-img']} src={logo} alt="bank-logo" />
@@ -18,12 +17,12 @@ const Header = (props) => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/user">
+            <NavLink to="/global">
               <AiFillBank /> Bank Accounts
             </NavLink>
           </li>
           <li>
-            <NavLink to="/login">
+            <NavLink to="/">
               <BiLogOut /> Log Out
             </NavLink>
           </li>
