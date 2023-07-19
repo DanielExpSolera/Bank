@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -234,5 +235,46 @@ public class UserResource {
 
         return ResponseEntity.ok(collectionModel);
     }
-
+    @DeleteMapping("/users")
+    public ResponseEntity<Object> deleteUserById(@RequestParam(name="id", required = true) String userId){
+        User user = service.findOne(Integer.valueOf(userId));
+        String notFoundMessage = new String(); 
+        if (user == null)
+        {
+            notFoundMessage = "User with ID " + userId + " not found.";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundMessage);
+        }
+        service.deleteById(Integer.valueOf(userId));
+        //return ResponseEntity.ok().build();
+        String successMessage = "User with ID " + userId + " deleted successfully.";
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successMessage);
+    }
+    @DeleteMapping("/users/accounts")
+    public ResponseEntity<Object> deleteUserAccountByAccountId(@RequestParam(name="accountId", required = true) String accountId)
+    {
+        Account account = accountService.findOne(Integer.valueOf(accountId));
+        String notFoundMessage = new String(); 
+        if (account == null)
+        {
+            notFoundMessage = "User account with ID " + accountId+ " not found.";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundMessage);
+        }
+        accountService.deleteById(Integer.valueOf(accountId));
+        String successMessage = "User account with ID " + accountId + " deleted successfully.";
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successMessage);
+    }
+    @DeleteMapping("/users/transactions")
+    public ResponseEntity<Object> deleteUserTransaction(@RequestParam(name="transactionId", required = true) String transactionId)
+    {
+        Transaction transaction = transactionDaoService.findOne(Integer.valueOf(transactionId));
+        String notFoundMessage = new String(); 
+        if (transaction == null)
+        {
+            notFoundMessage = "User account with ID " + transactionId + " not found.";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundMessage);
+        }
+        accountService.deleteById(Integer.valueOf(transactionId));
+        String successMessage = "User account with ID " + transactionId + " deleted successfully.";
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successMessage);
+    }
 }

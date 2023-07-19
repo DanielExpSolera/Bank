@@ -1,11 +1,16 @@
 package com.bank.AppBankBootcamp.User;
 
+import jakarta.validation.constraints.NotBlank;
 
 public class User {
 	private int id;
+	@NotBlank
 	private String firstName;
+	@NotBlank
 	private String lastName;
+	@NotBlank
 	private String email;
+	@NotBlank
 	private String password;
 	
 	public User(int id, String firstName, String lastName, String email, String password) {

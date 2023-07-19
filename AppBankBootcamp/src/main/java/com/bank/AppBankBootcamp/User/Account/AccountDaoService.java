@@ -32,8 +32,8 @@ public class AccountDaoService {
 		Predicate<? super Account> predicate = Account -> Account.getId() == id; 
 		return accounts.stream().filter(predicate).findFirst().orElse(null);
 	}
-	public void deleteById(int id) {
-		Predicate<? super Account> predicate = Account -> Account.getId() == id; 
+	public void deleteById(int accountId) {
+		Predicate<? super Account> predicate = Account -> Account.getId() == accountId; 
 		accounts.removeIf(predicate);
 	}
 	public Account save(Account newAccount) {

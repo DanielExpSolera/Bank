@@ -3,37 +3,52 @@ package com.bank.testcases;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.Dimension;
 import org.testng.Assert;
-import org.openqa.selenium.JavascriptExecutor;
+
 import java.util.*;
 
-public class TestCaseLoginSuccesfullRecordIde {
-  private WebDriver driver;
-  private Map<String, Object> vars;
-  JavascriptExecutor js;
-  @Before
-  public void setUp() {
-    driver = new ChromeDriver();
-    js = (JavascriptExecutor) driver;
-    vars = new HashMap<String, Object>();
-  }
-  @After
-  public void tearDown() {
-    driver.quit();
-  }
-  @Test
-  public void testCaseLoginSuccesfull() {
-    driver.get("http://localhost:3000/");
-    driver.manage().window().setSize(new Dimension(1936, 1056));
-    driver.findElement(By.cssSelector(".Forms_input-box__AKZqz:nth-child(2)")).click();
-    driver.findElement(By.cssSelector(".Forms_input-box__AKZqz:nth-child(2)")).sendKeys("solera@solera.com");
-    driver.findElement(By.cssSelector(".Forms_input-box__AKZqz:nth-child(4)")).sendKeys("bootcamp2");
-    driver.findElement(By.cssSelector(".Forms_button__canWc")).click();
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    Assert.assertEquals(driver.switchTo().alert().getText(), "You logged in Successfully ✔ ");
-  }
+public class TestCaseLoginSuccesfullRecordIde {
+    private WebDriver driver;
+    private Map<String, Object> vars;
+    JavascriptExecutor js;
+
+    @Before
+    public void setUp() {
+        driver = new ChromeDriver();
+        js = (JavascriptExecutor) driver;
+        vars = new HashMap<String, Object>();
+    }
+
+    @After
+    public void tearDown() {
+        driver.quit();
+    }
+
+    @Test
+    public void testCaseLoginSuccesfull() {
+        driver.get("http://localhost:3000/");
+        driver.manage().window().setSize(new Dimension(1936, 1056));
+        driver.findElement(By.cssSelector(".Forms_input-box__AKZqz:nth-child(2)")).click();
+        driver.findElement(By.cssSelector(".Forms_input-box__AKZqz:nth-child(2)")).sendKeys("solera@solera.com");
+        driver.findElement(By.cssSelector(".Forms_input-box__AKZqz:nth-child(4)")).sendKeys("bootcamp2");
+        driver.findElement(By.cssSelector(".Forms_button__canWc")).click();
+
+        Assert.assertEquals(driver.switchTo().alert().getText(), "You logged in Successfully ✔ ");
+    }
+    @Test
+    public void testGooglePlayStoreButton() {
+        WebElement buttonGoogleApps = driver.findElement(By.cssSelector("a[aria-label='Google apps']"));
+        WebElement buttonPlayStore = driver.findElement(By.cssSelector(""));
+        String urlPlayStore = "https://play.google.com/";
+
+        driver.get("https://google.com");
+        buttonGoogleApps.click();
+        buttonPlayStore.click();
+
+        Assert.assertEquals(urlPlayStore, driver.getCurrentUrl());
+    }
 }
