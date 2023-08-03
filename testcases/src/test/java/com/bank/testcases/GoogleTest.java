@@ -29,12 +29,26 @@ public class GoogleTest {
     public void quit() {
        driver.quit();
     }
-    private WebElement switchToGoogleAppFrame() {
+    private int getIFrameIndexByWebElement(String selector) {
         int numberIFrames = driver.findElements(By.tagName("iframe")).size();
+        int isInFrame = 0;
+        int frameIndex = -1;
+        for (int i = 0; i < numberIFrames; i++)
+        {
+            // jump to the frame dom
+            driver.switchTo().frame(i);
+            isInFrame = driver.findElements(By.cssSelector(selector)).size();
+            if (frameIndex == -1 && isInFrame > 0)
+            {
+                frameIndex = i;
+            }
+            //com back to the default url dom content
+        }
+        driver.switchTo().defaultContent();
         System.out.println("The number of iframes in page: " + numberIFrames);
 
        // driver.switchTo().frame(0);
-
+        return frameIndex
     }
     @Test
     public void testGooglePlayStoreButton() {
