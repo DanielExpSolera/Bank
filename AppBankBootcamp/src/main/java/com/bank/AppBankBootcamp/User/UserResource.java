@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
@@ -81,7 +82,8 @@ public class UserResource {
         // /users/(the id of the new user)
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
                 .toUri();
-        return ResponseEntity.created(location).build();
+
+        return ResponseEntity.created(location).body(savedUser);
     }
 
     @PostMapping("/users/{userId}/accounts")
@@ -112,8 +114,6 @@ public class UserResource {
         User user = service.findOne(userId);
         Account account = accountService.findOne(transaction.getAccountId());
         if (user == null || account == null) {
-            // Devolver una respuesta de error o lanzar una excepción si el usuario no
-            // existe
             return ResponseEntity.notFound().build();
         }
         // Asignar el usuario a la transacción
@@ -161,25 +161,6 @@ public class UserResource {
         return ResponseEntity.ok(collectionModel);
     }
 
-    /*
-     * @GetMapping("/users/{userId}/accounts")
-     * public ResponseEntity<Object> retrieveUserAccounts(@PathVariable int userId)
-     * {
-     * List<Account> userAccounts = accountService.getAccountsByUser(userId);
-     * if (userAccounts.isEmpty()) {
-     * String notFoundMessage = "User with ID " + userId + " not found.";
-     * return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundMessage);
-     * }
-     * CollectionModel<Account> collectionModel = CollectionModel.of(userAccounts);
-     * // Agregar enlaces al recurso
-     * collectionModel.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(
-     * UserResource.class).retrieveUserTransactions(userId)).withSelfRel());
-     * collectionModel.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(
-     * UserResource.class).retrieveAUser(userId)).withRel("user"));
-     * 
-     * return ResponseEntity.ok(collectionModel);
-     * }
-     */
     @GetMapping("/users/{userId}/accounts")
     public ResponseEntity<Object> retrieveUserAccounts(@PathVariable int userId) {
         List<Account> userAccounts = accountService.getAccountsByUser(userId);
@@ -264,17 +245,14 @@ public class UserResource {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successMessage);
     }
     @DeleteMapping("/users/transactions")
-    public ResponseEntity<Object> deleteUserTransaction(@RequestParam(name="transactionId", required = true) String transactionId)
+    public ResponseEntity<Object> deleteUserTransactionById(@RequestParam(name="transactionId", required = true) String transactionId)
     {
         Transaction transaction = transactionDaoService.findOne(Integer.valueOf(transactionId));
-        String notFoundMessage = new String(); 
         if (transaction == null)
-        {
-            notFoundMessage = "User account with ID " + transactionId + " not found.";
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundMessage);
-        }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User account with ID " + transactionId + " not found.");
+
         accountService.deleteById(Integer.valueOf(transactionId));
-        String successMessage = "User account with ID " + transactionId + " deleted successfully.";
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successMessage);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("User account with ID " + transactionId + " deleted successfully.");
     }
 }
