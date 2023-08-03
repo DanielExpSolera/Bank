@@ -3,6 +3,7 @@ package com.bank.AppBankBootcamp.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -22,12 +23,13 @@ public class UserDaoService {
 		return users;
 	}
 	public User findOne(int id) {
-		Predicate<? super User> predicate = user -> user.getId() == id; 
-		return users.stream().filter(predicate).findFirst().orElse(null);
+		Predicate<? super User> predicate = user -> user.getId() == id;
+		List<User> filteredList = users.stream().filter(predicate).toList();
+		return (filteredList.size() != 1) ? null : filteredList.get(0);
 	}
-	public void deleteById(int id) {
+	public boolean deleteById(int id) {
 		Predicate<? super User> predicate = user -> user.getId() == id; 
-		users.removeIf(predicate);
+		return users.removeIf(predicate);
 	}
 	public User save(User user) {
 		user.setId(++usersCount);

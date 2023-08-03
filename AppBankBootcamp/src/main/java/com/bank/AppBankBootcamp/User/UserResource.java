@@ -70,10 +70,6 @@ public class UserResource {
         return entity;
     }
 
-    @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathVariable int id) {
-        service.deleteById(id);
-    }
 
     // POST /users
     @PostMapping("/users")
@@ -219,16 +215,29 @@ public class UserResource {
     @DeleteMapping("/users")
     public ResponseEntity<Object> deleteUserById(@RequestParam(name="id", required = true) String userId){
         User user = service.findOne(Integer.valueOf(userId));
-        String notFoundMessage = new String(); 
+        String notFoundMessage = new String();
         if (user == null)
         {
             notFoundMessage = "User with ID " + userId + " not found.";
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundMessage);
         }
-        service.deleteById(Integer.valueOf(userId));
         //return ResponseEntity.ok().build();
+        service.deleteById(user.getId());
         String successMessage = "User with ID " + userId + " deleted successfully.";
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successMessage);
+        return ResponseEntity.status(HttpStatus.OK).body(successMessage);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Object> deleteUser(@PathVariable int id) {
+        User user = service.findOne(Integer.valueOf(id));
+
+        if (user == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with ID " + id + " not found.");
+
+        service.deleteById(user.getId());
+
+        String successMessage = "User with ID " + id + " deleted successfully.";
+        return ResponseEntity.status(HttpStatus.OK).body(successMessage);
     }
     @DeleteMapping("/users/accounts")
     public ResponseEntity<Object> deleteUserAccountByAccountId(@RequestParam(name="accountId", required = true) String accountId)
