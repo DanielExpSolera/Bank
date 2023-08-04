@@ -82,16 +82,14 @@ public class UserResource {
         return ResponseEntity.created(location).body(savedUser);
     }
 
-    @PostMapping("/users/{userId}/accounts")
-    public ResponseEntity<Account> createAccountForUser(@PathVariable int userId, @RequestBody Account account) {
-        User user = service.findOne(userId);
+    @PostMapping("/users/accounts")
+    public ResponseEntity<Object> createAccountForUser(@RequestBody Account account) {
+        User user = service.findOne(account.getUserId());
         if (user == null) {
             // Devolver una respuesta de error o lanzar una excepción si el usuario no
             // existe
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with ID " + account.getUserId() + " not found.");
         }
-        // Asignar el usuario a la cuenta
-        account.setUserId(userId);
         // Guardar la cuenta en el AccountDaoService
         Account savedAccount = accountService.save(account);
         // Construir la URI de la ubicación de la cuenta creada
@@ -104,16 +102,13 @@ public class UserResource {
         return ResponseEntity.created(location).body(savedAccount);
     }
 
-    @PostMapping("/users/{userId}/transactions")
-    public ResponseEntity<Transaction> createTransactionForUser(@PathVariable int userId,
-            @RequestBody Transaction transaction) {
-        User user = service.findOne(userId);
+    @PostMapping("/users/transactions")
+    public ResponseEntity<Object> createTransactionForUser(@RequestBody Transaction transaction) {
+        User user = service.findOne(transaction.getUserId());
         Account account = accountService.findOne(transaction.getAccountId());
-        if (user == null || account == null) {
-            return ResponseEntity.notFound().build();
+        if (user == null || account == null || account.getUserId() != user.getId()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("It's impossible to create a transaction for the User with ID " + transaction.getUserId() + " for an account with an ID " + transaction.getAccountId());
         }
-        // Asignar el usuario a la transacción
-        transaction.setUserId(userId);
         // Guardar la transacción en el TransactionDaoService
         Transaction savedTransaction = transactionDaoService.save(transaction);
         // Construir la URI de la ubicación de la transacción creada
@@ -144,7 +139,7 @@ public class UserResource {
     public ResponseEntity<Object> retrieveUserTransactions(@PathVariable int userId) {
         List<Transaction> userTransactions = transactionDaoService.getTransactionsByUser(userId);
         if (userTransactions.isEmpty()) {
-            String notFoundMessage = "User with ID " + userId + " not found.";
+            String notFoundMessage = "User with ID " + userId + " transactions not found.";
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundMessage);
         }
         CollectionModel<Transaction> collectionModel = CollectionModel.of(userTransactions);
@@ -155,6 +150,13 @@ public class UserResource {
                 .linkTo(WebMvcLinkBuilder.methodOn(UserResource.class).retrieveAUser(userId)).withRel("user"));
 
         return ResponseEntity.ok(collectionModel);
+    }
+    @GetMapping("/users/{userId}/transaction")
+    public ResponseEntity<Object> retrieveUserTransactionById(@PathVariable int userId, @RequestParam int transactionId) {
+        Transaction requestTransaction = transactionDaoService.findOne(transactionId);
+        if (requestTransaction == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with ID " + userId + " don't have a transaction with the ID " + transactionId);        }
+        return ResponseEntity.ok(requestTransaction);
     }
 
     @GetMapping("/users/{userId}/accounts")
@@ -184,26 +186,22 @@ public class UserResource {
 
     @GetMapping("/users/{userId}/accounts/{accountId}")
     public ResponseEntity<Object> retrieveUserAccount(@PathVariable int userId, @PathVariable int accountId) {
-        List<Account> userAccounts = accountService.getAccountsById(accountId, userId);
+        Account account = accountService.getAccountById(accountId, userId);
         User user = service.findOne(userId);
         String notFoundMessage = new String(); 
         if (user == null) {
             notFoundMessage = "User with ID " + userId + " not found.";
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundMessage);
         }
-        if (userAccounts.isEmpty()) {
+        if (account == null) {
             notFoundMessage = "Account with id " + accountId + " not found with the userId " + userId;
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundMessage);
         }
-        List<Object> accountObjects = new ArrayList<>();
-        for (Account account : userAccounts) {
-            List<Transaction> transactions = transactionDaoService.getTransactionsByAccount(account.getId());
-            if (!transactions.isEmpty()) {
+        List<Transaction> transactions = transactionDaoService.getTransactionsByAccount(account.getId());
+        if (!transactions.isEmpty()) {
                 account.setTransactions(transactions);
-            }
-            accountObjects.add(account);
         }
-        CollectionModel<Object> collectionModel = CollectionModel.of(accountObjects);
+        CollectionModel<Object> collectionModel = (CollectionModel<Object>) CollectionModel.of(account);
         // Agregar enlaces al recurso
         collectionModel.add(WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(UserResource.class).retrieveUserTransactions(userId)).withSelfRel());
@@ -258,10 +256,10 @@ public class UserResource {
     {
         Transaction transaction = transactionDaoService.findOne(Integer.valueOf(transactionId));
         if (transaction == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User account with ID " + transactionId + " not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User transaction with ID " + transactionId + " not found.");
 
         accountService.deleteById(Integer.valueOf(transactionId));
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("User account with ID " + transactionId + " deleted successfully.");
+        return ResponseEntity.status(HttpStatus.OK).body("User transaction with ID " + transactionId + " deleted successfully.");
     }
 }
